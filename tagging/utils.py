@@ -27,6 +27,13 @@ def parse_tag_input(input):
         return []
 
     input = force_unicode(input)
+    input = input.strip(' ')
+    input = input.strip(',')
+
+    if ',' not in input and '"' not in input:
+        input = '"%s"' % input
+
+
 
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to
@@ -260,4 +267,5 @@ def calculate_cloud(tags, steps=4, distribution=LOGARITHMIC):
                 if not font_set and tag_weight <= thresholds[i]:
                     tag.font_size = i + 1
                     font_set = True
-    return tags
+    return sorted(tags, key=lambda t: t.slug)
+
